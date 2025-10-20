@@ -1,0 +1,155 @@
+
+import './App.css';
+import { useState} from 'react';
+
+/*
+const [message, setMessage] = useState('');
+  useEffect(() => {
+    fetch("http://98.81.80.29/backend/")  // Replace this with the API endpoint you created
+      .then(response => response.text())
+      .then(data => setMessage(data));
+  }, []);
+  */
+
+function App() {
+  const [weightVal,setWeight] = useState();
+  const [repsVal,setReps] = useState();
+  const [reserveVal,setReserve] = useState();
+  const [exerciseVal,setExercise] = useState('BenchPress');
+  const [refreshedInput,refreshInput] = useState(true);
+  const [idVal,setId] = useState('Tomek');
+
+  function getCsv(){
+    fetch("http://50.17.102.159/backend/csvDownload",
+      { 
+          method: "POST",
+          headers: { "Content-Type": "application/json"},
+          body: JSON.stringify({id:idVal})
+      }).then(response => response.blob()).then(blob => 
+        {
+        const fileurl = window.URL.createObjectURL(new Blob([blob]));
+        const link = document.createElement('a');
+        link.href = fileurl;
+        link.setAttribute('download','gymSheet.csv');
+        document.body.appendChild(link);
+        link.click();
+      })
+  }
+  function exerciseSend(){
+    if (weightVal===undefined || repsVal===undefined|| reserveVal===undefined ){
+      alert("fill all inputs");
+    }
+    else{
+      fetch("http://50.17.102.159/backend/csvpost", {
+        method: "POST",
+        body: JSON.stringify({
+          exercise:exerciseVal,set:0,weight:weightVal,reps:repsVal,reserve:reserveVal,id:idVal
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        }
+      })
+        .then((response) => response.text())
+        .then((json) => console.log(json));
+        
+      refreshInput(!refreshedInput);
+      setReps();
+      setReserve();
+      setWeight();
+    }
+  
+  }
+  return (  
+    <div className="App">
+      <header className="App-header">
+        {refreshedInput && 
+        <ExerciseInputBoxes exerciseVal={exerciseVal} setExercise={setExercise}
+        weightVal={weightVal} setWeight={setWeight} repsVal={repsVal} 
+        setReps={setReps} reserveVal={reserveVal} setReserve={setReserve} idVal={idVal} setId={setId}/>
+        }
+        {!refreshedInput && 
+        <ExerciseInputBoxes exerciseVal={exerciseVal} setExercise={setExercise}
+        weightVal={weightVal} setWeight={setWeight} repsVal={repsVal} 
+        setReps={setReps} reserveVal={reserveVal} setReserve={setReserve} idVal={idVal} setId={setId}/>
+        }
+        <button onClick={exerciseSend}>Send</button>
+        <button onClick={getCsv}>Download</button>
+      </header>
+    </div>
+  );
+  
+}
+
+
+
+function ExerciseInputBoxes({exerciseVal,setExercise,weightVal,setWeight,repsVal,setReps,reserveVal,setReserve,idVal,setId}) {
+  
+  return (
+    
+    <div style={{display:'flex'}}>
+      <div >
+        <div>
+          <label>ID</label>
+        </div>
+        <div>
+          <select class="boxes" value={idVal} onChange={e => setId(e.target.value)}>
+            <option value="Tomek">Tomek</option>
+            <option value="Mikolaj">Mikolaj</option>
+            <option value="Test">Test</option>
+          </select>
+        </div>
+      </div>
+      <div >
+        <div>
+          <label>Excersize</label>
+        </div>
+        <div>
+          <select class="boxes" value={exerciseVal} onChange={e => setExercise(e.target.value)}>
+            <option value="BenchPress">BenchPress</option>
+            <option value="ShoulderPress">ShoulderPress</option>
+            <option value="LatteralRaises">Latteral Raises</option>
+            <option value="LatPulldown">Lat Pulldown</option>
+            <option value="InclineBench">InclineBench</option>
+            <option value="Dips">Dips</option>
+            <option value="AbsCableCrunches">AbsCableCrunches</option>
+            <option value="MachineChestFlys">MachineChestFlys</option>
+            <option value="TricepsPushdowns">TricepsPushdowns</option>
+            <option value="Pullups">Pullups</option>
+            <option value="DumbellCurls">Dumbell Curls</option>
+            <option value="BarbellCurls">BarbellCurls</option>
+            <option value="CabelRows">Cabel Rows</option>
+            <option value="HammerCurls">HammerCurls</option>
+          </select>
+        </div>
+      </div>
+      <div >
+        <div>
+          <label>weight</label>
+        </div>
+        <div>
+          <input type="number" class="inputbox" value={weightVal} onInput={e => setWeight(e.target.value)}></input>
+        </div>
+      </div>
+      <div>
+        <div>
+          <label>reps</label>
+        </div>
+        <div>
+          <input class="inputbox" type="number" value={repsVal} onInput={e => setReps(e.target.value)}></input>
+        </div>
+      </div>
+      <div>
+        <div>
+          <label>reserve</label>
+        </div>
+        <div>
+          <input class="inputbox" type="number" value={reserveVal} onInput={e => setReserve(e.target.value)}></input>
+        </div>
+      </div>
+      
+    </div>
+    
+  );
+}
+export default App
+
