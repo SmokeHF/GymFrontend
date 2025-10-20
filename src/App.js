@@ -18,9 +18,10 @@ function App() {
   const [exerciseVal,setExercise] = useState('BenchPress');
   const [refreshedInput,refreshInput] = useState(true);
   const [idVal,setId] = useState('Tomek');
+  const currentBackendIP="http://50.17.102.159/backend/"
 
   function getCsv(){
-    fetch("http://50.17.102.159/backend/csvDownload",
+    fetch(currentBackendIP+"csvDownload",
       { 
           method: "POST",
           headers: { "Content-Type": "application/json"},
@@ -40,7 +41,7 @@ function App() {
       alert("fill all inputs");
     }
     else{
-      fetch("http://50.17.102.159/backend/csvpost", {
+      fetch(currentBackendIP+"csvpost", {
         method: "POST",
         body: JSON.stringify({
           exercise:exerciseVal,set:0,weight:weightVal,reps:repsVal,reserve:reserveVal,id:idVal
