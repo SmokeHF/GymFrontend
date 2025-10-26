@@ -1,4 +1,5 @@
 
+import { Routes,BrowserRouter,Route,Link } from 'react-router-dom';
 import './App.css';
 import { useState} from 'react';
 
@@ -58,30 +59,43 @@ function App() {
       setReserve();
       setWeight();
     }
-  
   }
-  return (  
-    <div className="App">
-      <header className="App-header">
-        {refreshedInput && 
-        <ExerciseInputBoxes exerciseVal={exerciseVal} setExercise={setExercise}
-        weightVal={weightVal} setWeight={setWeight} repsVal={repsVal} 
-        setReps={setReps} reserveVal={reserveVal} setReserve={setReserve} idVal={idVal} setId={setId}/>
-        }
-        {!refreshedInput && 
-        <ExerciseInputBoxes exerciseVal={exerciseVal} setExercise={setExercise}
-        weightVal={weightVal} setWeight={setWeight} repsVal={repsVal} 
-        setReps={setReps} reserveVal={reserveVal} setReserve={setReserve} idVal={idVal} setId={setId}/>
-        }
-        <button onClick={exerciseSend}>Send</button>
-        <button onClick={getCsv}>Download</button>
-      </header>
-    </div>
+  function Home() {
+    return (
+      <div className="App">
+          <header className="App-header">
+            {refreshedInput && 
+            <ExerciseInputBoxes exerciseVal={exerciseVal} setExercise={setExercise}
+            weightVal={weightVal} setWeight={setWeight} repsVal={repsVal} 
+            setReps={setReps} reserveVal={reserveVal} setReserve={setReserve} idVal={idVal} setId={setId}/>
+            }
+            {!refreshedInput && 
+            <ExerciseInputBoxes exerciseVal={exerciseVal} setExercise={setExercise}
+            weightVal={weightVal} setWeight={setWeight} repsVal={repsVal} 
+            setReps={setReps} reserveVal={reserveVal} setReserve={setReserve} idVal={idVal} setId={setId}/>
+            }
+            <button onClick={exerciseSend}>Send</button>
+            <button onClick={getCsv}>Download</button>
+          </header>
+        </div>
+    );
+  }
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LogIn />} />
+        <Route path="/home" element={<Home />} />  
+      </Routes>
+    </BrowserRouter>
   );
-  
 }
-
-
+function LogIn(){
+  return (
+    <Link to="/home">
+        <button type="button">Log in</button>
+    </Link>
+  );
+}
 
 function ExerciseInputBoxes({exerciseVal,setExercise,weightVal,setWeight,repsVal,setReps,reserveVal,setReserve,idVal,setId}) {
   
