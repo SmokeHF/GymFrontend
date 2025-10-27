@@ -4,15 +4,26 @@ import './App.css';
 import { useState} from 'react';
 import LoginPage, { Password, Submit, Username } from '@react-login-page/page1';
 
+const currentBackendIP="http://50.17.102.159/backend/"
 
 function App() {
+  
+    return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LogIn />} />
+        <Route path="/home" element={<Home />} />  
+      </Routes>
+    </BrowserRouter>
+  );
+}
+function Home() {
   const [weightVal,setWeight] = useState();
   const [repsVal,setReps] = useState();
   const [reserveVal,setReserve] = useState();
   const [exerciseVal,setExercise] = useState('BenchPress');
   const [refreshedInput,refreshInput] = useState(true);
   const [idVal,setId] = useState('Tomek');
-  const currentBackendIP="http://50.17.102.159/backend/"
 
   function getCsv(){
     fetch(currentBackendIP+"csvDownload",
@@ -30,6 +41,7 @@ function App() {
         link.click();
       })
   }
+
   function exerciseSend(){
     if (weightVal===undefined || repsVal===undefined|| reserveVal===undefined ){
       alert("fill all inputs");
@@ -53,38 +65,29 @@ function App() {
       setWeight();
     }
   }
-  function Home() {
-    return (
-      <div className="App">
-          <header className="App-header">
-            {refreshedInput && 
-            <ExerciseInputBoxes exerciseVal={exerciseVal} setExercise={setExercise}
-            weightVal={weightVal} setWeight={setWeight} repsVal={repsVal} 
-            setReps={setReps} reserveVal={reserveVal} setReserve={setReserve} idVal={idVal} setId={setId}/>
-            }
-            {!refreshedInput && 
-            <ExerciseInputBoxes exerciseVal={exerciseVal} setExercise={setExercise}
-            weightVal={weightVal} setWeight={setWeight} repsVal={repsVal} 
-            setReps={setReps} reserveVal={reserveVal} setReserve={setReserve} idVal={idVal} setId={setId}/>
-            }
-            <button onClick={exerciseSend}>Send</button>
-            <button onClick={getCsv}>Download</button>
-          </header>
-        </div>
-    );
-  }
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LogIn />} />
-        <Route path="/home" element={<Home />} />  
-      </Routes>
-    </BrowserRouter>
+    <div className="App">
+        <header className="App-header">
+          {refreshedInput && 
+          <ExerciseInputBoxes exerciseVal={exerciseVal} setExercise={setExercise}
+          weightVal={weightVal} setWeight={setWeight} repsVal={repsVal} 
+          setReps={setReps} reserveVal={reserveVal} setReserve={setReserve} idVal={idVal} setId={setId}/>
+          }
+          {!refreshedInput && 
+          <ExerciseInputBoxes exerciseVal={exerciseVal} setExercise={setExercise}
+          weightVal={weightVal} setWeight={setWeight} repsVal={repsVal} 
+          setReps={setReps} reserveVal={reserveVal} setReserve={setReserve} idVal={idVal} setId={setId}/>
+          }
+          <button onClick={exerciseSend}>Send</button>
+          <button onClick={getCsv}>Download</button>
+        </header>
+      </div>
   );
 }
 function LogIn(){
   const [usernameVal,setUsername]=useState();
   const [passwordVal,setPassword]=useState();
+  const [refreshedInput,refreshInput] = useState(true);
   function loginSend(){
     if(usernameVal===undefined||passwordVal===undefined){
       alert("fill all inputs!");
@@ -92,6 +95,7 @@ function LogIn(){
     else{
       console.log("username = "+usernameVal);
       console.log("password = "+passwordVal);
+      refreshInput(!refreshedInput);
       setUsername();
       setPassword();
     }
