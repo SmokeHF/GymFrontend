@@ -1,16 +1,9 @@
 
-import { Routes,BrowserRouter,Route,Link } from 'react-router-dom';
+import { Routes,BrowserRouter,Route,Link} from 'react-router-dom';
 import './App.css';
 import { useState} from 'react';
+import Login from '@react-login-page/page1';
 
-/*
-const [message, setMessage] = useState('');
-  useEffect(() => {
-    fetch("http://98.81.80.29/backend/")  // Replace this with the API endpoint you created
-      .then(response => response.text())
-      .then(data => setMessage(data));
-  }, []);
-  */
 
 function App() {
   const [weightVal,setWeight] = useState();
@@ -91,9 +84,7 @@ function App() {
 }
 function LogIn(){
   return (
-    <Link to="/home">
-        <button type="button">Log in</button>
-    </Link>
+    <Login style={{ minHeight: 800 }} />
   );
 }
 
