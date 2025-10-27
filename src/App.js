@@ -2,7 +2,7 @@
 import { Routes,BrowserRouter,Route,Link} from 'react-router-dom';
 import './App.css';
 import { useState} from 'react';
-import Login from '@react-login-page/page1';
+import LoginPage, { Password, Submit, Username } from '@react-login-page/page1';
 
 
 function App() {
@@ -83,8 +83,27 @@ function App() {
   );
 }
 function LogIn(){
+  const [usernameVal,setUsername]=useState();
+  const [passwordVal,setPassword]=useState();
+  function loginSend(){
+    if(usernameVal===undefined||passwordVal===undefined){
+      alert("fill all inputs!");
+    }
+    else{
+      console.log("username = "+usernameVal);
+      console.log("password = "+passwordVal);
+      setUsername();
+      setPassword();
+    }
+    
+  }
   return (
-    <Login style={{ minHeight: 800 }} />
+    //<Login style={{ minHeight: 800 }} />
+    <LoginPage style={{ minHeight: 800 }}>
+      <Username value={usernameVal} onChange={e => setUsername(e.target.value)}></Username>
+      <Password value={passwordVal} onChange={e => setPassword(e.target.value)}></Password>
+      <Submit onClick={loginSend} >Log in</Submit>
+    </LoginPage>
   );
 }
 
