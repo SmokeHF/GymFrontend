@@ -1,5 +1,5 @@
 
-import { Routes,BrowserRouter,Route,Link} from 'react-router-dom';
+import { Routes,BrowserRouter,Route,Link,useNavigate} from 'react-router-dom';
 import './App.css';
 import { useState} from 'react';
 import LoginPage, { Password, Submit, Username } from '@react-login-page/page1';
@@ -87,22 +87,29 @@ function Home() {
 function LogIn(){
   const [usernameVal,setUsername]=useState();
   const [passwordVal,setPassword]=useState();
-  const [refreshedInput,refreshInput] = useState(true);
+  let navigate=useNavigate();
+
   function loginSend(){
     if(usernameVal===undefined||passwordVal===undefined){
       alert("fill all inputs!");
     }
     else{
+      fetch(currentBackendIP+"getToken",
+      { 
+        method: "POST",
+        headers: { "Content-Type": "application/json"},
+        body: JSON.stringify({username:usernameVal,password:passwordVal})
+      }).then((response) => response.text()).then((json) => console.log(json));
+
       console.log("username = "+usernameVal);
       console.log("password = "+passwordVal);
-      refreshInput(!refreshedInput);
       setUsername();
       setPassword();
+      navigate("/home");
     }
     
   }
   return (
-    //<Login style={{ minHeight: 800 }} />
     <LoginPage style={{ minHeight: 800 }}>
       <Username value={usernameVal} onChange={e => setUsername(e.target.value)}></Username>
       <Password value={passwordVal} onChange={e => setPassword(e.target.value)}></Password>
