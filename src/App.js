@@ -3,6 +3,7 @@ import { Routes,BrowserRouter,Route,Link,useNavigate} from 'react-router-dom';
 import './App.css';
 import { useState} from 'react';
 import LoginPage, { Password, Submit, Username } from '@react-login-page/page1';
+import Login, {Button} from 'react-login-page';
 
 const currentBackendIP="http://50.17.102.159/backend/"
 
@@ -109,11 +110,31 @@ function LogIn(){
     }
     
   }
+  function register(){
+    if(usernameVal===undefined||passwordVal===undefined){
+      alert("fill all inputs!");
+    }
+    else{
+      fetch(currentBackendIP+"registerUser",
+      { 
+        method: "POST",
+        headers: { "Content-Type": "application/json"},
+        body: JSON.stringify({username:usernameVal,password:passwordVal})
+      }).then((response) => response.text()).then((json) => console.log(json));
+
+      console.log("username = "+usernameVal);
+      console.log("password = "+passwordVal);
+      setUsername();
+      setPassword();
+      navigate("/home");
+    }
+  }
   return (
     <LoginPage style={{ minHeight: 800 }}>
       <Username value={usernameVal} onChange={e => setUsername(e.target.value)}></Username>
       <Password value={passwordVal} onChange={e => setPassword(e.target.value)}></Password>
       <Submit onClick={loginSend} >Log in</Submit>
+      <Button keyname="register" type="submit" onClick={register}>Register</Button>
     </LoginPage>
   );
 }
