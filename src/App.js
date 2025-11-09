@@ -1,11 +1,12 @@
 
-import { Routes,BrowserRouter,Route,Link,useNavigate} from 'react-router-dom';
+import { Routes,BrowserRouter,Route,useNavigate} from 'react-router-dom';
 import './App.css';
 import { useState} from 'react';
 import LoginPage, { Password, Submit, Username } from '@react-login-page/page1';
-import Login, {Button} from 'react-login-page';
+import {Button} from 'react-login-page';
 
-const currentBackendIP="http://50.17.102.159/backend/"
+const currentBackendIP="http://98.93.9.99/backend/"
+let currentToken='invalid';
 
 function App() {
   
@@ -28,19 +29,24 @@ function Home() {
 
   function getCsv(){
     fetch(currentBackendIP+"csvDownload",
-      { 
+      {
           method: "POST",
           headers: { "Content-Type": "application/json"},
-          body: JSON.stringify({id:idVal})
-      }).then(response => response.blob()).then(blob => 
+          body: JSON.stringify({token:currentToken})
+      }).then(response => 
         {
-        const fileurl = window.URL.createObjectURL(new Blob([blob]));
-        const link = document.createElement('a');
-        link.href = fileurl;
-        link.setAttribute('download','gymSheet.csv');
-        document.body.appendChild(link);
-        link.click();
-      })
+          if(response.status===200){
+            response.blob().then(blob =>{
+              const fileurl = window.URL.createObjectURL(new Blob([blob]));
+              const link = document.createElement('a');
+              link.href = fileurl;
+              link.setAttribute('download','gymSheet.csv');
+              document.body.appendChild(link);
+              link.click();
+            })
+          }
+        }
+      )
   }
 
   function exerciseSend(){
@@ -51,7 +57,7 @@ function Home() {
       fetch(currentBackendIP+"csvpost", {
         method: "POST",
         body: JSON.stringify({
-          exercise:exerciseVal,set:0,weight:weightVal,reps:repsVal,reserve:reserveVal,id:idVal
+          exercise:exerciseVal,set:0,weight:weightVal,reps:repsVal,reserve:reserveVal,token:currentToken
         }),
         headers: {
           "Content-type": "application/json; charset=UTF-8"
@@ -91,6 +97,7 @@ function LogIn(){
   let navigate=useNavigate();
 
   function loginSend(){
+    
     if(usernameVal===undefined||passwordVal===undefined){
       alert("fill all inputs!");
     }
@@ -100,13 +107,18 @@ function LogIn(){
         method: "POST",
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify({username:usernameVal,password:passwordVal})
-      }).then((response) => response.text()).then((json) => console.log(json));
+      }).then((response) => response.text()).then((responsetxt) => {
+        if(responsetxt==="wrong password" || responsetxt==="wrong username"){
+          alert(responsetxt);
+        }
+        else{
+          currentToken=responsetxt;
+          console.log(responsetxt);
+          navigate("/home");
+        }
+      });
 
-      console.log("username = "+usernameVal);
-      console.log("password = "+passwordVal);
-      setUsername();
-      setPassword();
-      navigate("/home");
+      
     }
     
   }
@@ -120,13 +132,17 @@ function LogIn(){
         method: "POST",
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify({username:usernameVal,password:passwordVal})
-      }).then((response) => response.text()).then((json) => console.log(json));
-
-      console.log("username = "+usernameVal);
-      console.log("password = "+passwordVal);
-      setUsername();
-      setPassword();
-      navigate("/home");
+      }).then((response) => response.text()).then((responsetxt) => {
+        if(responsetxt==="username taken"){
+          alert(responsetxt);
+        }
+        else{
+          currentToken=responsetxt;
+          console.log("token = "+currentToken);
+          navigate("/home");
+        }
+      });
+      
     }
   }
   return (
@@ -158,7 +174,7 @@ function ExerciseInputBoxes({exerciseVal,setExercise,weightVal,setWeight,repsVal
       </div>
       <div >
         <div>
-          <label>Excersize</label>
+          <label>Excercise</label>
         </div>
         <div>
           <select class="boxes" value={exerciseVal} onChange={e => setExercise(e.target.value)}>
