@@ -25,7 +25,7 @@ function Home() {
   const [reserveVal,setReserve] = useState();
   const [exerciseVal,setExercise] = useState('BenchPress');
   const [refreshedInput,refreshInput] = useState(true);
-  const [idVal,setId] = useState('Tomek');
+
 
   function getCsv(){
     fetch(currentBackendIP+"csvDownload",
@@ -45,19 +45,27 @@ function Home() {
               link.click();
             })
           }
+          else {
+            alert("You have an empty sheet")
+          }
         }
       )
   }
 
   function exerciseSend(){
-    if (weightVal===undefined || repsVal===undefined|| reserveVal===undefined ){
+    let trueReserve=reserveVal;
+    if (weightVal===undefined || repsVal===undefined){
       alert("fill all inputs");
     }
     else{
+      if(trueReserve===undefined){
+        trueReserve=0;
+      }
+     
       fetch(currentBackendIP+"csvpost", {
         method: "POST",
         body: JSON.stringify({
-          exercise:exerciseVal,set:0,weight:weightVal,reps:repsVal,reserve:reserveVal,token:currentToken
+          exercise:exerciseVal,set:0,weight:weightVal,reps:repsVal,reserve:trueReserve,token:currentToken
         }),
         headers: {
           "Content-type": "application/json; charset=UTF-8"
@@ -78,12 +86,12 @@ function Home() {
           {refreshedInput && 
           <ExerciseInputBoxes exerciseVal={exerciseVal} setExercise={setExercise}
           weightVal={weightVal} setWeight={setWeight} repsVal={repsVal} 
-          setReps={setReps} reserveVal={reserveVal} setReserve={setReserve} idVal={idVal} setId={setId}/>
+          setReps={setReps} reserveVal={reserveVal} setReserve={setReserve} />
           }
           {!refreshedInput && 
           <ExerciseInputBoxes exerciseVal={exerciseVal} setExercise={setExercise}
           weightVal={weightVal} setWeight={setWeight} repsVal={repsVal} 
-          setReps={setReps} reserveVal={reserveVal} setReserve={setReserve} idVal={idVal} setId={setId}/>
+          setReps={setReps} reserveVal={reserveVal} setReserve={setReserve} />
           }
           <button onClick={exerciseSend}>Send</button>
           <button onClick={getCsv}>Download</button>
@@ -155,23 +163,11 @@ function LogIn(){
   );
 }
 
-function ExerciseInputBoxes({exerciseVal,setExercise,weightVal,setWeight,repsVal,setReps,reserveVal,setReserve,idVal,setId}) {
+function ExerciseInputBoxes({exerciseVal,setExercise,weightVal,setWeight,repsVal,setReps,reserveVal,setReserve}) {
   
   return (
     
     <div style={{display:'flex'}}>
-      <div >
-        <div>
-          <label>ID</label>
-        </div>
-        <div>
-          <select class="boxes" value={idVal} onChange={e => setId(e.target.value)}>
-            <option value="Tomek">Tomek</option>
-            <option value="Mikolaj">Mikolaj</option>
-            <option value="Test">Test</option>
-          </select>
-        </div>
-      </div>
       <div >
         <div>
           <label>Excercise</label>
@@ -192,6 +188,7 @@ function ExerciseInputBoxes({exerciseVal,setExercise,weightVal,setWeight,repsVal
             <option value="BarbellCurls">BarbellCurls</option>
             <option value="CabelRows">Cabel Rows</option>
             <option value="HammerCurls">HammerCurls</option>
+            <option value="RearDeltFlys">RearDeltFlys</option>
           </select>
         </div>
       </div>
