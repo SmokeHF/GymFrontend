@@ -14,10 +14,14 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LogIn />} />
-        <Route path="/home" element={<Home />} />  
+        <Route path="/home" element={<Home />} /> 
+        <Route path="/csvPreview" element={<CsvPreview />} />
       </Routes>
     </BrowserRouter>
   );
+}
+function CsvPreview(){
+
 }
 function Home() {
   const [weightVal,setWeight] = useState();
@@ -28,28 +32,25 @@ function Home() {
 
 
   function getCsv(){
-    fetch(currentBackendIP+"csvDownload",
-      {
-          method: "POST",
-          headers: { "Content-Type": "application/json"},
-          body: JSON.stringify({token:currentToken})
-      }).then(response => 
-        {
-          if(response.status===200){
-            response.blob().then(blob =>{
-              const fileurl = window.URL.createObjectURL(new Blob([blob]));
-              const link = document.createElement('a');
-              link.href = fileurl;
-              link.setAttribute('download','gymSheet.csv');
-              document.body.appendChild(link);
-              link.click();
-            })
-          }
-          else {
-            alert("You have an empty sheet")
-          }
+    fetch(currentBackendIP+"csvDownload",{
+      method: "POST",
+      headers: { "Content-Type": "application/json"},
+      body: JSON.stringify({token:currentToken})
+    }).then(response => {
+        if(response.status===200){
+          response.blob().then(blob =>{
+            const fileurl = window.URL.createObjectURL(new Blob([blob]));
+            const link = document.createElement('a');
+            link.href = fileurl;
+            link.setAttribute('download','gymSheet.csv');
+            document.body.appendChild(link);
+            link.click();
+          })
         }
-      )
+        else {
+          alert("You have an empty sheet")
+        }
+      })
   }
 
   function exerciseSend(){
@@ -80,6 +81,33 @@ function Home() {
       setWeight();
     }
   }
+  function ala(){
+    const link = document.createElement('a');
+    link.href = '/ala.html';
+    document.body.appendChild(link);
+    link.click();
+  }
+  function getCsvPreview(){
+    fetch(currentBackendIP+'showCsv',{
+      method: "POST",
+      headers: { "Content-Type": "application/json"},
+      body: JSON.stringify({token:currentToken})
+    }).then((response) => {
+        if(response.status===200){
+          response.blob().then(blob =>{
+            const fileurl = window.URL.createObjectURL(new Blob([blob]));
+            const link = document.createElement('a');
+            link.href = fileurl;
+            //link.setAttribute('download','gymSheet.csv');
+            document.body.appendChild(link);
+            link.click();
+          })
+        }
+        else {
+          alert("You have an empty sheet")
+        }
+      })
+  }
   return (
     <div className="App">
         <header className="App-header">
@@ -95,6 +123,7 @@ function Home() {
           }
           <button onClick={exerciseSend}>Send</button>
           <button onClick={getCsv}>Download</button>
+          <button onClick={getCsvPreview}>Preview CSV</button>
         </header>
       </div>
   );
