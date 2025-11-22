@@ -1,13 +1,13 @@
 
-import { Routes,BrowserRouter,Route,useNavigate} from 'react-router-dom';
+import { Routes,BrowserRouter,Route,useLocation} from 'react-router-dom';
+import { useNavigate } from "react-router";
 import './App.css';
 import { useState} from 'react';
 import LoginPage, { Password, Submit, Username } from '@react-login-page/page1';
 import {Button} from 'react-login-page';
 
-const currentBackendIP="http://98.93.9.99/backend/"
+const currentBackendIP="https://gymsheet.pl/backend/"
 let currentToken='invalid';
-
 function App() {
   
     return (
@@ -21,6 +21,11 @@ function App() {
   );
 }
 function CsvPreview(){
+  const {state} = useLocation();
+  const {htmlPreview} = state;
+  return (
+    <div dangerouslySetInnerHTML={{ __html: htmlPreview }} />
+  )
 
 }
 function Home() {
@@ -29,7 +34,7 @@ function Home() {
   const [reserveVal,setReserve] = useState();
   const [exerciseVal,setExercise] = useState('BenchPress');
   const [refreshedInput,refreshInput] = useState(true);
-
+  const navigate = useNavigate();
 
   function getCsv(){
     fetch(currentBackendIP+"csvDownload",{
@@ -81,13 +86,8 @@ function Home() {
       setWeight();
     }
   }
-  function ala(){
-    const link = document.createElement('a');
-    link.href = '/ala.html';
-    document.body.appendChild(link);
-    link.click();
-  }
   function getCsvPreview(){
+    
     fetch(currentBackendIP+'showCsv',{
       method: "POST",
       headers: { "Content-Type": "application/json"},
@@ -95,12 +95,7 @@ function Home() {
     }).then((response) => {
         if(response.status===200){
           response.blob().then(blob =>{
-            const fileurl = window.URL.createObjectURL(new Blob([blob]));
-            const link = document.createElement('a');
-            link.href = fileurl;
-            //link.setAttribute('download','gymSheet.csv');
-            document.body.appendChild(link);
-            link.click();
+            blob.text().then((htmlPreview)=>navigate("/csvPreview",{state:{htmlPreview} }))
           })
         }
         else {
@@ -108,6 +103,7 @@ function Home() {
         }
       })
   }
+
   return (
     <div className="App">
         <header className="App-header">
