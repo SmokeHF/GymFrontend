@@ -1,6 +1,4 @@
-.App {
-  text-align: center;
-}
+
 .boxes, .inputbox{
   width:300px;
   height: 40px;
@@ -23,6 +21,7 @@ button{
 
 
 .App-header {
+  text-align: center;
   background-color: #282c34;
   background-size: cover;
   display: flex;
@@ -36,9 +35,8 @@ button{
 }
 
 
-html, body, #root, .App, .App-header {
+html, body, #root, .App-header {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #282c34;
 }

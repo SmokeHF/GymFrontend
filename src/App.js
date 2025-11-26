@@ -105,29 +105,29 @@ function Home() {
   }
 
   return (
-    <div className="App"> 
-      <header className="App-header">
-        {refreshedInput && 
-        <ExerciseInputBoxes exerciseVal={exerciseVal} setExercise={setExercise}
-        weightVal={weightVal} setWeight={setWeight} repsVal={repsVal} 
-        setReps={setReps} reserveVal={reserveVal} setReserve={setReserve} />
-        }
-        {!refreshedInput && 
-        <ExerciseInputBoxes exerciseVal={exerciseVal} setExercise={setExercise}
-        weightVal={weightVal} setWeight={setWeight} repsVal={repsVal} 
-        setReps={setReps} reserveVal={reserveVal} setReserve={setReserve} />
-        }
-        <button onClick={exerciseSend}>Send</button>
-        <button onClick={getCsv}>Download</button>
-        <button onClick={getCsvPreview}>Preview CSV</button>
-      </header>
-    </div>
+    <header className="App-header">
+      <style>{` html { background-color: #282c34; } `}</style>
+      {refreshedInput && 
+      <ExerciseInputBoxes exerciseVal={exerciseVal} setExercise={setExercise}
+      weightVal={weightVal} setWeight={setWeight} repsVal={repsVal} 
+      setReps={setReps} reserveVal={reserveVal} setReserve={setReserve} />
+      }
+      {!refreshedInput && 
+      <ExerciseInputBoxes exerciseVal={exerciseVal} setExercise={setExercise}
+      weightVal={weightVal} setWeight={setWeight} repsVal={repsVal} 
+      setReps={setReps} reserveVal={reserveVal} setReserve={setReserve} />
+      }
+      <button onClick={exerciseSend}>Send</button>
+      <button onClick={getCsv}>Download</button>
+      <button onClick={getCsvPreview}>Preview CSV</button>
+    </header>
   );
 }
 function LogIn(){
   const [usernameVal,setUsername]=useState();
   const [passwordVal,setPassword]=useState();
   let navigate=useNavigate();
+  const css = {'min-width':'450px', 'height':'100%'};
 
   function loginSend(){
     
@@ -179,7 +179,9 @@ function LogIn(){
     }
   }
   return (
-    <LoginPage >
+    
+    <LoginPage style={{ ...css }}>
+      <style>{` html { background-color:rgb(200,80,130)`}</style>
       <Username value={usernameVal} onChange={e => setUsername(e.target.value)}></Username>
       <Password value={passwordVal} onChange={e => setPassword(e.target.value)}></Password>
       <Submit onClick={loginSend} >Log in</Submit>
