@@ -105,23 +105,23 @@ function Home() {
   }
 
   return (
-    <div className="App">
-        <header className="App-header">
-          {refreshedInput && 
-          <ExerciseInputBoxes exerciseVal={exerciseVal} setExercise={setExercise}
-          weightVal={weightVal} setWeight={setWeight} repsVal={repsVal} 
-          setReps={setReps} reserveVal={reserveVal} setReserve={setReserve} />
-          }
-          {!refreshedInput && 
-          <ExerciseInputBoxes exerciseVal={exerciseVal} setExercise={setExercise}
-          weightVal={weightVal} setWeight={setWeight} repsVal={repsVal} 
-          setReps={setReps} reserveVal={reserveVal} setReserve={setReserve} />
-          }
-          <button onClick={exerciseSend}>Send</button>
-          <button onClick={getCsv}>Download</button>
-          <button onClick={getCsvPreview}>Preview CSV</button>
-        </header>
-      </div>
+    <div className="App"> 
+      <header className="App-header">
+        {refreshedInput && 
+        <ExerciseInputBoxes exerciseVal={exerciseVal} setExercise={setExercise}
+        weightVal={weightVal} setWeight={setWeight} repsVal={repsVal} 
+        setReps={setReps} reserveVal={reserveVal} setReserve={setReserve} />
+        }
+        {!refreshedInput && 
+        <ExerciseInputBoxes exerciseVal={exerciseVal} setExercise={setExercise}
+        weightVal={weightVal} setWeight={setWeight} repsVal={repsVal} 
+        setReps={setReps} reserveVal={reserveVal} setReserve={setReserve} />
+        }
+        <button onClick={exerciseSend}>Send</button>
+        <button onClick={getCsv}>Download</button>
+        <button onClick={getCsvPreview}>Preview CSV</button>
+      </header>
+    </div>
   );
 }
 function LogIn(){
@@ -179,7 +179,7 @@ function LogIn(){
     }
   }
   return (
-    <LoginPage style={{ minHeight: 800 }}>
+    <LoginPage >
       <Username value={usernameVal} onChange={e => setUsername(e.target.value)}></Username>
       <Password value={passwordVal} onChange={e => setPassword(e.target.value)}></Password>
       <Submit onClick={loginSend} >Log in</Submit>
