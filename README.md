@@ -5,7 +5,8 @@ This is frontend repository if your looking for the backend part [go here](https
 This is my personal project that I made to help me and my friends track our gym progress and I made it publicaly available.
 
 The goal of this project is to simplify process of entering data into csv format after completing every set.  
-Manualy clicking right cells on your phone while you're tired and sweating is annoying, needlessly difficult and tedious. To solve this problem I've created this web app.  
+Manualy clicking right cells on your phone while you're tired and sweating is annoying, needlessly difficult and tedious. To solve this problem I've created this web app.   
+
 Now while at the gym after you've completed your set. You can takeout your phone. Pick your exercise from a list. Only enter reps and weight used and click 'send'.  
 If you want to confirm you've entered everything correctly or you want to rappidly check you training data just click 'Preview' and it will redirect you to an html table of all your training data. 
 When you come home and want to analise your gym progress just click 'Download' to get a neetly mad csv file which includes additional data like: numbers of sets, dates and time.
