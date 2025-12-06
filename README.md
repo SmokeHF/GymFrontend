@@ -16,6 +16,7 @@ Very simple UI and large buttons are made so that the usage is simplest possible
 1. While stil at th gym, easely put your sets into csv format, whith fewest clicks possible.
 2. Download your csv file to see your progress.
 3. Use fast preview to check your entries with one click.
+4. Account system so that only you have access to your data.
 
 ## Navigation
 
@@ -44,5 +45,7 @@ Backend is made in Flask and python
 
 ## Other features
 1. Selfe-made token base authentication system, to enhance security.
-2. Set numbers are set automaticaly. If it's the same day app assumes it's a next set. If it's a different day it assumes it's a new exercise.
-3. 
+3. Set numbers are set automaticaly. If it's the same day app assumes it's a next set. If it's a different day it assumes it's a new exercise.
+4. Valid SSL and domain for protection and visibility.
+5. You can use 'next' while entering setts on your phone to minimise amount of clicks even more.
+6. Exercise doesn't change after sendig so you don't have to pick exercise after every set.
