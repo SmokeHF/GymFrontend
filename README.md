@@ -1,10 +1,14 @@
-# [gymsheet.pl](https://gymsheet.pl) a gym progress tracking app's frontend
+# [gymsheet.pl](https://gymsheet.pl) a gym progress tracking app (frontend)
 This is frontend repository if your looking for the backend part [go here](https://github.com/SmokeHF/GymBackend).
 
 # About
 This is my personal project that I made to help me and my friends track our gym progress and I made it publicaly available.
 
-The goal of this project is to simplify process of entering data into csv format after completing every set. Manualy clicking right cells on your phone while you're tired and sweating is annoying, needlessly difficult and tedious. To solve this problem I've created this web app. Now while at the gym after you've completed your set. You can takeout your phone. Pick your exercise from a list. Only enter reps and weight used and click 'send'. If you want to confirm you've entered everything correctly or you want to rappidly check you training data just click 'Preview' and it will redirect you to an html table of all your training data. When you come home and want to analise your gym progress just click 'Download' to get a neetly mad csv file which includes additional data like: numbers of sets, dates and time.
+The goal of this project is to simplify process of entering data into csv format after completing every set.  
+Manualy clicking right cells on your phone while you're tired and sweating is annoying, needlessly difficult and tedious. To solve this problem I've created this web app.  
+Now while at the gym after you've completed your set. You can takeout your phone. Pick your exercise from a list. Only enter reps and weight used and click 'send'.  
+If you want to confirm you've entered everything correctly or you want to rappidly check you training data just click 'Preview' and it will redirect you to an html table of all your training data. 
+When you come home and want to analise your gym progress just click 'Download' to get a neetly mad csv file which includes additional data like: numbers of sets, dates and time.
 Very simple UI and large buttons are made so that the usage is simplest possible.
 
 ## Main features
@@ -32,11 +36,11 @@ Click "download", if your browser didn't download automaticaly check your broswe
 
 ## Web apps architechture
 
-App is deployed on AWS EC2 ubuntu virtual machine.
-Server is running on Apache
-To serve backend WSGI server I use mod-wsgi a simple to use Apache module.
-Frontend is made in React.js
-Backend is made in Flask and python
+App is deployed on AWS EC2 ubuntu virtual machine.  
+Server is running on Apache  
+To serve backend WSGI server I use mod-wsgi a simple to use Apache module.  
+Frontend is made in React.js  
+Backend is made in Flask and python  
 
 ## Other features
 1. Selfe-made token base authentication system, to enhance security.
